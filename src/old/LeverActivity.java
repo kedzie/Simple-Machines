@@ -1,4 +1,8 @@
-package com.kedzie.lever;
+package old;
+
+import com.kedzie.lever.R;
+import com.kedzie.lever.R.id;
+import com.kedzie.lever.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

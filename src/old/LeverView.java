@@ -1,9 +1,11 @@
-package com.kedzie.lever;
+package old;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,11 +17,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
 public class LeverView extends GLSurfaceView implements GLSurfaceView.Renderer {
-//	private static final String TAG = LeverView.class.getSimpleName();
-	
 	public static final int LEVER_MASS = 20;
 	
 	private Handler _handler;
@@ -33,13 +32,9 @@ public class LeverView extends GLSurfaceView implements GLSurfaceView.Renderer {
 	
 	private float halfLeverLength = _leverLength/2;
 	/** Angle when lever touches floor */
-	private float _minAngle;
-	private float _maxAngle;
+	private float _angleRange;
 	
-	/** weight kg on left side */
-	private Weight _m1 = new Weight(5, -1*halfLeverLength);
-	/** weight kg on right side */
-	private Weight _m2=new Weight(0, halfLeverLength);
+	private List<Weight> _weights = new ArrayList<Weight>();
 	
 	private FloatBuffer fulcrumBuffer;
 	private float []fulcrumCoords = {
@@ -117,8 +112,10 @@ public class LeverView extends GLSurfaceView implements GLSurfaceView.Renderer {
 		floorVB = allocate(floorCoords);
 		floorIndexBuffer = allocate(floorIndices);
 		floorNB = allocate(floorNormals);
-		_maxAngle = (float)Math.atan(_leverHeight/Math.abs(-1*halfLeverLength));
-		_minAngle =-1* (float)Math.atan(_leverHeight/(halfLeverLength));
+		_angleRange =(float)Math.atan(_leverHeight/(halfLeverLength));
+		
+		_weights.add(new Weight(5, -1*halfLeverLength));
+		_weights.add(new Weight(0, halfLeverLength));
 	}
 	
 	@Override
@@ -140,20 +137,14 @@ public class LeverView extends GLSurfaceView implements GLSurfaceView.Renderer {
 		if(timestamp==0) timestamp=current;
 		float interval = (current-timestamp)/1000f;
 		
-		float alpha_1 = _m1.calculateAngularAcceleration(_rotation);
-		float alpha_2 = _m2.calculateAngularAcceleration(_rotation);
-		float alpha = alpha_1+alpha_2;
+		float alpha = 0;
+		for(Weight w : _weights) 
+			alpha += w.calculateAngularAcceleration(_rotation);
 		
-		setText("bottom", "\u03B8 = " + Math.toDegrees(_rotation) 
-				+ "\nF\u03C4 = " + _m1.Ftan 
-				+ "\nF\u0393 = " + _m1.Frad 
-				+ "\n\u03B1 = " + Math.toDegrees(alpha_1));
-
 		_angularVelocity += alpha*interval;
 		_rotation += _angularVelocity*interval;
-		
-		_rotation = Math.max(_minAngle, _rotation);
-		_rotation = Math.min(_rotation, _maxAngle);
+		_rotation = Math.max(-1*_angleRange, _rotation);
+		_rotation = Math.min(_rotation, _angleRange);
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
@@ -184,27 +175,22 @@ public class LeverView extends GLSurfaceView implements GLSurfaceView.Renderer {
 		gl.glNormalPointer(GL10.GL_FLOAT, 0, leverVB);
 		gl.glDrawElements(GL10.GL_TRIANGLES, leverIndices.length, GL10.GL_UNSIGNED_SHORT, leverIndexBuffer);
 		
-		_m1.draw(gl);
-		_m2.draw(gl);
+		for(Weight w : _weights) 
+			w.draw(gl);
 		
 		timestamp = current;
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		return super.onTouchEvent(event);
-	}
-
 	public void setHandler(Handler h) {
 		this._handler = h;
 	}
 	
-	private void setText(String view, String text) {
-		if(_handler==null) return;
-		Message msg = _handler.obtainMessage();
+	private void printStatus(Handler handler, String view, String text) {
+		if(handler==null) return;
+		Message msg = handler.obtainMessage();
 		msg.setData(new Bundle());
 		msg.getData().putString(view, text);
-		_handler.sendMessage(msg);
+		handler.sendMessage(msg);
 	}
 	
 	public static  FloatBuffer allocate(float []vertices) {

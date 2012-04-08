@@ -1,9 +1,13 @@
-package com.kedzie.lever;
+package old;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 public class Weight {
 	public float Ftan;
