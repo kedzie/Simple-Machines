@@ -22,7 +22,6 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 	private static final String TAG = RajRenderer.class.getSimpleName();
 	
 	private Sphere mSphere;
-	private BaseObject3D mMonkey;
 	
 	/** Is the scene initialized yet */
 	private boolean mSceneInitialized;
@@ -52,31 +51,16 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 			mPicker.setOnObjectPickedListener(this);
 			
 			mLight = new DirectionalLight(0.1f, 0.2f, -1.0f); // set the direction
-			mLight.setColor(0, 0, 1.0f);
+			mLight.setColor(0f, 0f, 1.0f);
 			mLight.setPosition(.5f, 0, -2);
 			
-			//TODO REMOVE
-			mMonkey = AndroidUtils.loadObject(mContext.getResources(), mTextureManager, R.raw.monkey);
-			mMonkey.setLight(mLight);
-			addChild(mMonkey);
-			mPicker.registerObject(mMonkey);
+			mFloor = new Floor(10, 10);
+			mFloor.setLight(mLight);
+			addChild(mFloor);
 			
-			mSphere = new Sphere(1, 12, 12);
-			mSphere.setLight(mLight);
-			mSphere.addTexture(mTextureManager.addTexture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.selera_sari)));
-			mSphere.setPosition(3, 0, 0);
-			mSphere.setScale(.5f);
-			addChild(mSphere);
-			mPicker.registerObject(mSphere);
-			//TODO REMOVE
-			
-//			mFloor = new Floor(10, 10);
-//			mFloor.setLight(mLight);
-//			addChild(mFloor);
-			
-//			_lever = new Lever(4f, .5f, .2f, 1f, 20f, mContext.getResources(), mTextureManager);
-//			addChild(_lever);
-//			mPicker.registerObject(_lever);
+			_lever = new Lever(4f, .5f, .2f, 1f, 20f, mContext.getResources(), mTextureManager);
+			addChild(_lever);
+			mPicker.registerObject(_lever);
 			
 //			Weight w = new Weight(2f, -2f, 0xffffff00);
 //			mPicker.registerObject(w);
@@ -86,33 +70,30 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 //			mPicker.registerObject(w2);
 //			_lever.addWeight(w2);
 			
-//			_fulcrum = AndroidUtils.loadObject(mContext.getResources(), mTextureManager, R.raw.fulcrum);
-//			_fulcrum.setLight(mLight);
+			_fulcrum = AndroidUtils.loadObject(mContext.getResources(), mTextureManager, R.raw.fulcrum);
+			_fulcrum.setLight(mLight);
 //			_fulcrum.setScale(1f, _lever.getHeight(), 1f);
-//			addChild(_fulcrum);
-//			mPicker.registerObject(_fulcrum);
+			addChild(_fulcrum);
+			mPicker.registerObject(_fulcrum);
 
-			mCamera.setZ(-4.2f);
+			mCamera.setPosition(0f, 5f, -10f);
+			mCamera.setRotX(-15f);
 			
 			startRendering();
 			
 			mSceneInitialized=true;
 		}
-		mMonkey.setMaterial(new GouraudMaterial());
-		mMonkey.getMaterial().setUseColor(true);
-		mMonkey.setColor(0xff00ff00);
+		mFloor.setMaterial(new GouraudMaterial());
+		mFloor.getMaterial().setUseColor(true);
+		mFloor.setColor(0xff0000ff);
 		
-//		mFloor.setMaterial(new GouraudMaterial());
-//		mFloor.getMaterial().setUseColor(true);
-//		mFloor.setColor(0xff0000ff);
+		_fulcrum.setMaterial(new GouraudMaterial());
+		_fulcrum.getMaterial().setUseColor(true);
+		_fulcrum.setColor(0xffff0000);
 		
-//		_fulcrum.setMaterial(new GouraudMaterial());
-//		_fulcrum.getMaterial().setUseColor(true);
-//		_fulcrum.setColor(0xffff0000);
-		
-//		_lever.setMaterial(new GouraudMaterial());
-//		_lever.getMaterial().setUseColor(true);
-//		_lever.setColor(0xff77ee22);
+		_lever.setMaterial(new GouraudMaterial());
+		_lever.getMaterial().setUseColor(true);
+		_lever.setColor(0xff00ff00);
 	}
 
 	@Override

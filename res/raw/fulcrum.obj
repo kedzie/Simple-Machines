@@ -2,11 +2,14 @@
 # Exported from SketchUp, (c) 2000-2006 Google, Inc.
 # File units = meters
 
-mtllib fulcrum.mtl
+#mtllib fulcrum.mtl
 
-g Mesh1 Fulcrum1 Model
+#g Mesh1 Fulcrum1 Model
 
-usemtl FrontColor
+#usemtl FrontColor
+
+o Fulcrum
+
 v 1 0 -0
 vt 0 -17.6068
 vn -0.894427 -0.447214 -0
@@ -24,20 +27,14 @@ vt -19.685 44.0171
 f 1/4/2 4/5/2 2/6/2
 
 v 0 0 -1
-vt 0 39.3701
-vn 0 1 -0
-vt 39.3701 0
-vt 39.3701 39.3701
-f 5/7/3 4/5/3 1/8/3 3/9/3 
-
 vt 39.3701 0
 vn 0.894427 -0.447214 -0
 vt 19.685 44.0171
-f 5/10/4 2/11/4 4/5/4
+f 5/7/3 2/8/3 4/5/3
 
 vt -1.44382e-015 -17.6068
 vn -3.28014e-017 -0.447214 0.894427
 vt 39.3701 -17.6068
 vt 19.685 26.4103
-f 5/12/5 3/13/5 2/14/5
+f 5/9/4 3/10/4 2/11/4
 

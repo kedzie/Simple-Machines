@@ -60,15 +60,15 @@ public class Lever extends BaseObject3D {
 		
 		float []vertices = {
 				//front face
-				-halfLeverLength, 0f, 0,				//bottom-left
-				halfLeverLength,	0f, 0,				//bottom-right
-				halfLeverLength,  _thickness, 0,	//top-right
-				-halfLeverLength, _thickness, 0,	//top-left
+				-halfLeverLength, 0f, _width/2,				//bottom-left
+				halfLeverLength,	0f, _width/2,				//bottom-right
+				halfLeverLength,  _thickness, _width/2,	//top-right
+				-halfLeverLength, _thickness, _width/2,	//top-left
 				//back face
-				-halfLeverLength, 0f, -1*_width,				//bottom-left
-				-halfLeverLength, _thickness, -1*_width,//top-left
-				halfLeverLength,  _thickness, -1*_width,//top-right
-				halfLeverLength,	0f, -1*_width				//bottom-right
+				-halfLeverLength, 0f, -1*_width/2,				//bottom-left
+				-halfLeverLength, _thickness, -1*_width/2,//top-left
+				halfLeverLength,  _thickness, -1*_width/2,//top-right
+				halfLeverLength,	0f, -1*_width/2				//bottom-right
 		};
 		float []normals = {
 				0f, 0f, 1f,
@@ -78,27 +78,17 @@ public class Lever extends BaseObject3D {
 				0f, 0f, -1f,
 				0f, 0f, -1f,
 				0f, 0f, -1f,
-				0f, 0f, -1f,
-		};
-		float [] colors = {
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
-				.6f, .7f, .2f,
+				0f, 0f, -1f
 		};
 		short []indices = { 
 				0,2,3,0,1,2,	//front
 				3,6,5,3,2,6,	//top
 				 0, 5, 4, 0, 3, 5,	//left
-					//right
-					//back
+				1, 7, 6, 1, 7, 2, 	//right
+				7, 4, 6, 7, 5, 6, 	//back
 				0,4,7,0,7,1		//bottom
 			};
-		setData(vertices, normals, null, colors, indices);
+		setData(vertices, normals, null, null, indices);
 	}
 	
 	/**
