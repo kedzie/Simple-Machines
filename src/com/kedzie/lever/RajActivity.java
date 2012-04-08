@@ -29,7 +29,6 @@ public class RajActivity extends Activity {
         ConfigurationInfo info = am.getDeviceConfigurationInfo();
         if(info.reqGlEsVersion <  0x20000)
         	throw new Error("OpenGL ES 2.0 is not supported by this device");
-        _surfaceView.setEGLContextClientVersion(2);
        
         LayoutParams textLayoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
         _topText = new TextView(this);
@@ -39,6 +38,7 @@ public class RajActivity extends Activity {
         LayoutParams glLayoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
         glLayoutParams.weight=1f;
         _surfaceView = new GLSurfaceView(this);
+        _surfaceView.setEGLContextClientVersion(2);
         
         _bottomText = new TextView(this);
         _bottomText.setTextSize(10f);

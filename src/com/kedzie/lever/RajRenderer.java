@@ -71,21 +71,21 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 			mPicker.registerObject(mSphere);
 			//TODO REMOVE
 			
-			mFloor = new Floor(10, 10);
-			mFloor.setLight(mLight);
-			addChild(mFloor);
+//			mFloor = new Floor(10, 10);
+//			mFloor.setLight(mLight);
+//			addChild(mFloor);
 			
-			_lever = new Lever(4f, .5f, .2f, 1f, 20f, mContext.getResources(), mTextureManager);
-			addChild(_lever);
-			mPicker.registerObject(_lever);
+//			_lever = new Lever(4f, .5f, .2f, 1f, 20f, mContext.getResources(), mTextureManager);
+//			addChild(_lever);
+//			mPicker.registerObject(_lever);
 			
-			Weight w = new Weight(2f, -2f, 0xffffff00);
-			mPicker.registerObject(w);
-			_lever.addWeight( w );
+//			Weight w = new Weight(2f, -2f, 0xffffff00);
+//			mPicker.registerObject(w);
+//			_lever.addWeight( w );
 			
-			Weight w2 = new Weight(1f, 2f, 0xffff00ff);
-			mPicker.registerObject(w2);
-			_lever.addWeight(w2);
+//			Weight w2 = new Weight(1f, 2f, 0xffff00ff);
+//			mPicker.registerObject(w2);
+//			_lever.addWeight(w2);
 			
 //			_fulcrum = AndroidUtils.loadObject(mContext.getResources(), mTextureManager, R.raw.fulcrum);
 //			_fulcrum.setLight(mLight);
@@ -103,24 +103,24 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 		mMonkey.getMaterial().setUseColor(true);
 		mMonkey.setColor(0xff00ff00);
 		
-		mFloor.setMaterial(new GouraudMaterial());
-		mFloor.getMaterial().setUseColor(true);
-		mFloor.setColor(0xff0000ff);
+//		mFloor.setMaterial(new GouraudMaterial());
+//		mFloor.getMaterial().setUseColor(true);
+//		mFloor.setColor(0xff0000ff);
 		
-		_fulcrum.setMaterial(new GouraudMaterial());
-		_fulcrum.getMaterial().setUseColor(true);
-		_fulcrum.setColor(0xffff0000);
+//		_fulcrum.setMaterial(new GouraudMaterial());
+//		_fulcrum.getMaterial().setUseColor(true);
+//		_fulcrum.setColor(0xffff0000);
 		
-		_lever.setMaterial(new GouraudMaterial());
-		_lever.getMaterial().setUseColor(true);
-		_lever.setColor(0xff77ee22);
+//		_lever.setMaterial(new GouraudMaterial());
+//		_lever.getMaterial().setUseColor(true);
+//		_lever.setColor(0xff77ee22);
 	}
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
 		
-		_lever.update();
+//		_lever.update();
 	}
 	
 	@Override
