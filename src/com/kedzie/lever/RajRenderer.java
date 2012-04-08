@@ -17,7 +17,6 @@ import android.util.Log;
 
 import com.kedzie.lever.objects.Floor;
 import com.kedzie.lever.objects.Lever;
-import com.kedzie.lever.objects.Weight;
 
 public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListener {
 	private static final String TAG = RajRenderer.class.getSimpleName();

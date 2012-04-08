@@ -53,6 +53,7 @@ public class RajActivity extends Activity {
         
         _renderer = new RajRenderer(this);
 		_renderer.setSurfaceView(_surfaceView);
+		_surfaceView.setRenderer(_renderer);
     }
     
 	@Override
