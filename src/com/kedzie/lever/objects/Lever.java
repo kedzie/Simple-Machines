@@ -103,7 +103,7 @@ public class Lever extends BaseObject3D {
 		float angularAcceleration = 0;
 		for(Weight w : _weights) 
 			angularAcceleration += w.calculateAngularAcceleration(this);
-		_angularVelocity += angularAcceleration*interval;
+		_angularVelocity += Math.toDegrees(angularAcceleration)*interval;
 		//calculate new rotation, limited by valid range
 		float rotation = getRotZ() + _angularVelocity*interval;
 		rotation = Math.max(-1*_validAngleRange, rotation);

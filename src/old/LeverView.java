@@ -94,6 +94,7 @@ public class LeverView extends GLSurfaceView implements GLSurfaceView.Renderer {
 		gl.glDepthRangef(0f, 1f);
 		gl.glEnable(GL10.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL10.GL_LEQUAL);
+		gl.glDepthMask(true);
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 		gl.glEnable(GL10.GL_CULL_FACE);
 		gl.glCullFace(GL10.GL_BACK); 

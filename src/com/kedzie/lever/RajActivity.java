@@ -10,11 +10,12 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-public class RajActivity extends Activity {
+public class RajActivity extends Activity implements OnTouchListener {
 
 	protected GLSurfaceView _surfaceView;
 	protected TextView _topText;
@@ -54,12 +55,16 @@ public class RajActivity extends Activity {
         _renderer = new RajRenderer(this);
 		_renderer.setSurfaceView(_surfaceView);
 		_surfaceView.setRenderer(_renderer);
+		
+		_surfaceView.setOnTouchListener(this);
     }
     
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction()==MotionEvent.ACTION_DOWN) 
 			_renderer.touch(event.getX(), event.getY());
+		if(event.getAction()==MotionEvent.ACTION_MOVE) 
+			_renderer.move(event.getX(), event.getY());
 		return super.onTouchEvent(event);
 	}
     
@@ -95,4 +100,13 @@ public class RajActivity extends Activity {
             ((ViewGroup) view).removeAllViews();
         }
     }
+
+	@Override
+	public boolean onTouch(View arg0, MotionEvent event) {
+		if(event.getAction()==MotionEvent.ACTION_DOWN) 
+			_renderer.touch(event.getX(), event.getY());
+		if(event.getAction()==MotionEvent.ACTION_MOVE) 
+			_renderer.move(event.getX(), event.getY());
+		return true;
+	}
 }
