@@ -12,7 +12,6 @@ import rajawali.renderer.RajawaliRenderer;
 import rajawali.util.ObjectColorPicker;
 import rajawali.util.OnObjectPickedListener;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.kedzie.lever.objects.Floor;
@@ -20,8 +19,6 @@ import com.kedzie.lever.objects.Lever;
 
 public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListener {
 	private static final String TAG = RajRenderer.class.getSimpleName();
-	
-	private Sphere mSphere;
 	
 	/** Is the scene initialized yet */
 	private boolean mSceneInitialized;
@@ -36,6 +33,7 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 	private Lever _lever;
 	/** Fulcrum */
 	private BaseObject3D _fulcrum;
+	private  BaseObject3D _lever3D;
 	
 	public RajRenderer(Context context) {
 		super(context);
@@ -59,8 +57,14 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 			addChild(mFloor);
 			
 			_lever = new Lever(4f, .5f, .2f, 1f, 20f, mContext.getResources(), mTextureManager);
+			_lever.setLight(mLight);
 			addChild(_lever);
 			mPicker.registerObject(_lever);
+//			_lever3D = AndroidUtils.loadObject(mContext.getResources(), mTextureManager, R.raw.lever);
+//			_lever3D.setScale(_lever.getLength(), _lever.getThickness(), _lever.getWidth());
+//			_lever3D.setPosition(0f, _lever.getHeight(), 0f);
+//			addChild(_lever3D);
+//			mPicker.registerObject(_lever3D);
 			
 //			Weight w = new Weight(2f, -2f, 0xffffff00);
 //			mPicker.registerObject(w);
@@ -72,7 +76,7 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 			
 			_fulcrum = AndroidUtils.loadObject(mContext.getResources(), mTextureManager, R.raw.fulcrum);
 			_fulcrum.setLight(mLight);
-//			_fulcrum.setScale(1f, _lever.getHeight(), 1f);
+			_fulcrum.setScale(1f, _lever.getHeight(), 1f);
 			addChild(_fulcrum);
 			mPicker.registerObject(_fulcrum);
 
@@ -94,6 +98,10 @@ public class RajRenderer extends RajawaliRenderer implements OnObjectPickedListe
 		_lever.setMaterial(new GouraudMaterial());
 		_lever.getMaterial().setUseColor(true);
 		_lever.setColor(0xff00ff00);
+		
+//		_lever3D.setMaterial(new GouraudMaterial());
+//		_lever3D.getMaterial().setUseColor(true);
+//		_lever3D.setColor(0xff00ff00);
 	}
 
 	@Override
