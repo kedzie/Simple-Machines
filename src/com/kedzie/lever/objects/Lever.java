@@ -13,37 +13,38 @@ import android.content.res.Resources;
  * 
  * @author Marek Kedzierski
  */
+@SuppressWarnings("unused")
 public class Lever extends BaseObject3D {
 	/** length (x-axis)  */
-	private float _length;
+	private float mLength;
 	/** width (z-axis) */
-	private float _width ;
+	private float mWidth ;
 	/** thickness (y-axis) */
-	private float _thickness;
+	private float mThickness;
 	/** Height above ground (y-axis) */
-	private float _height;
+	private float mHeight;
 	/** Mass of lever */
-	private float _mass;
+	private float mMass;
 	/** Angular Velocity of lever (ω) */
-	private float _angularVelocity;
+	private float mAngularVelocity;
 	/** Valid range of θ before  lever touches floor */
-	private float _validAngleRange;
-	
+	private float mValidAngleRange;
 	/** timestamp of last update */
-	private long timestamp;
+	private long mTimestamp;
 	
-	private List<Weight> _weights = new ArrayList<Weight>();
-	private BaseObject3D seatA;
-	private BaseObject3D seatB;
+	private List<Weight> mWeights = new ArrayList<Weight>();
+	
+	private BaseObject3D mSeatA;
+	private BaseObject3D mSeatB;
 	
 	public Lever(float length, float width, float thickness, float height, float mass, Resources resources, TextureManager textureManager) {
-		_length=length;
-		_width=width;
-		_thickness=thickness;
-		_height=height;
-		float halfLeverLength = _length/2;
-		_validAngleRange = (float)Math.atan(_height/halfLeverLength);
-		_mass=mass;
+		mLength=length;
+		mWidth=width;
+		mThickness=thickness;
+		mHeight=height;
+		float halfLeverLength = mLength/2;
+		mValidAngleRange = (float)Math.atan(mHeight/halfLeverLength);
+		mMass=mass;
 		
 		//Load seat meshes
 //		seatA = AndroidUtils.loadObject(resources, textureManager, R.id.lever_seat);
@@ -54,33 +55,34 @@ public class Lever extends BaseObject3D {
 //		seatB.setScale(-1f, 1f, 1f);
 //		addChild(seatB);
 		
-		setPosition(0f, _height, 0f);
+		setPosition(0f, mHeight, 0f);
 		
 		mMaterial = new GouraudMaterial();
+		mMaterial.setUseColor(true);
 		
 		float []vertices = {
 				//front face
-				-halfLeverLength, 0f, _width/2,				//bottom-left
-				halfLeverLength,	0f, _width/2,				//bottom-right
-				halfLeverLength,  _thickness, _width/2,	//top-right
-				-halfLeverLength, _thickness, _width/2,	//top-left
+				-halfLeverLength, 0f, mWidth/2,				//bottom-left
+				halfLeverLength,	0f, mWidth/2,				//bottom-right
+				halfLeverLength,  mThickness, mWidth/2,	//top-right
+				-halfLeverLength, mThickness, mWidth/2,	//top-left
 				//back face
-				-halfLeverLength, 0f, -1*_width/2,				//bottom-left
-				-halfLeverLength, _thickness, -1*_width/2,//top-left
-				halfLeverLength,  _thickness, -1*_width/2,//top-right
-				halfLeverLength,	0f, -1*_width/2				//bottom-right
+				-halfLeverLength, 0f, -1*mWidth/2,				//bottom-left
+				-halfLeverLength, mThickness, -1*mWidth/2,//top-left
+				halfLeverLength,  mThickness, -1*mWidth/2,//top-right
+				halfLeverLength,	0f, -1*mWidth/2				//bottom-right
 		};
 		float []normals = {
+				0f, 0f, -1f,
+				0f, 0f, -1f, 
+				0f, 0f, -1f, 
+				0f, 0f, -1f,
 				0f, 0f, 1f,
-				0f, 0f, 1f, 
-				0f, 0f, 1f, 
 				0f, 0f, 1f,
-				0f, 0f, -1f,
-				0f, 0f, -1f,
-				0f, 0f, -1f,
-				0f, 0f, -1f
+				0f, 0f, 1f,
+				0f, 0f, 1f
 		};
-		short []indices = { 
+		int []indices = { 
 				0,2,3,0,1,2,	//front
 				3,6,5,3,2,6,	//top
 				 0, 5, 4, 0, 3, 5,	//left
@@ -96,21 +98,21 @@ public class Lever extends BaseObject3D {
 	 */
 	public void update() {
 		long current = System.currentTimeMillis();
-		if(timestamp==0) timestamp=current;
-		float interval = (current-timestamp)/1000f;
+		if(mTimestamp==0) mTimestamp=current;
+		float interval = (current-mTimestamp)/1000f;
 		
 		//update angular velocity
 		float angularAcceleration = 0;
-		for(Weight w : _weights) 
+		for(Weight w : mWeights) 
 			angularAcceleration += w.calculateAngularAcceleration(this);
-		_angularVelocity += Math.toDegrees(angularAcceleration)*interval;
+		mAngularVelocity += Math.toDegrees(angularAcceleration)*interval;
 		//calculate new rotation, limited by valid range
-		float rotation = getRotZ() + _angularVelocity*interval;
-		rotation = Math.max(-1*_validAngleRange, rotation);
-		rotation = Math.min(rotation, _validAngleRange);
+		float rotation = getRotZ() + mAngularVelocity*interval;
+		rotation = Math.max(-1*mValidAngleRange, rotation);
+		rotation = Math.min(rotation, mValidAngleRange);
 		setRotZ(rotation);
 		
-		timestamp = current;
+		mTimestamp = current;
 	}
 	
 	/**
@@ -118,8 +120,8 @@ public class Lever extends BaseObject3D {
 	 * @param w the {@link Weight}
 	 */
 	public void addWeight(Weight w) {
-		_weights.add(w);
-		w.setY(_thickness);
+		mWeights.add(w);
+		w.setY(mThickness);
 		addChild(w);
 	}
 	
@@ -128,34 +130,22 @@ public class Lever extends BaseObject3D {
 	 * @return the weights applying force
 	 */
 	public List<Weight> getWeights() {
-		return _weights;
+		return mWeights;
 	}
 	
 	public float getLength() {
-		return _length;
-	}
-	public void setLength(float length) {
-		_length = length;
+		return mLength;
 	}
 	public float getWidth() {
-		return _width;
-	}
-	public void setWidth(float width) {
-		_width = width;
+		return mWidth;
 	}
 	public float getThickness() {
-		return _thickness;
-	}
-	public void setThickness(float thickness) {
-		_thickness = thickness;
+		return mThickness;
 	}
 	public float getHeight() {
-		return _height;
-	}
-	public void setHeight(float height) {
-		_height = height;
+		return mHeight;
 	}
 	public float getMass() {
-		return _mass;
+		return mMass;
 	}
 }

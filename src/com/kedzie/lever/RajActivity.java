@@ -4,13 +4,12 @@ import rajawali.animation.TimerManager;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
@@ -27,17 +26,13 @@ public class RajActivity extends Activity implements OnTouchListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-        ConfigurationInfo info = am.getDeviceConfigurationInfo();
-        if(info.reqGlEsVersion <  0x20000)
+        if(am.getDeviceConfigurationInfo().reqGlEsVersion <  0x20000)
         	throw new Error("OpenGL ES 2.0 is not supported by this device");
        
-        LayoutParams textLayoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
         _topText = new TextView(this);
         _topText.setTextSize(14f);
         _topText.setText("Top Text");
         
-        LayoutParams glLayoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-        glLayoutParams.weight=1f;
         _surfaceView = new GLSurfaceView(this);
         _surfaceView.setEGLContextClientVersion(2);
         
@@ -47,9 +42,9 @@ public class RajActivity extends Activity implements OnTouchListener {
         
         _layout = new LinearLayout(this);
         _layout.setOrientation(LinearLayout.VERTICAL);
-        _layout.addView(_topText, textLayoutParams);
-        _layout.addView(_surfaceView, glLayoutParams);
-        _layout.addView(_bottomText, textLayoutParams);
+        _layout.addView(_topText, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        _layout.addView(_surfaceView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f));
+        _layout.addView(_bottomText, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setContentView(_layout);
         
         _renderer = new RajRenderer(this);
@@ -58,15 +53,6 @@ public class RajActivity extends Activity implements OnTouchListener {
 		
 		_surfaceView.setOnTouchListener(this);
     }
-    
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if(event.getAction()==MotionEvent.ACTION_DOWN) 
-			_renderer.touch(event.getX(), event.getY());
-		if(event.getAction()==MotionEvent.ACTION_MOVE) 
-			_renderer.move(event.getX(), event.getY());
-		return super.onTouchEvent(event);
-	}
     
     @Override
     protected void onResume() {
@@ -102,7 +88,7 @@ public class RajActivity extends Activity implements OnTouchListener {
     }
 
 	@Override
-	public boolean onTouch(View arg0, MotionEvent event) {
+	public boolean onTouch(View view, MotionEvent event) {
 		if(event.getAction()==MotionEvent.ACTION_DOWN) 
 			_renderer.touch(event.getX(), event.getY());
 		if(event.getAction()==MotionEvent.ACTION_MOVE) 
