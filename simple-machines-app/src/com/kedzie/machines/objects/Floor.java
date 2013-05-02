@@ -1,7 +1,7 @@
-package com.kedzie.lever.objects;
+package com.kedzie.machines.objects;
 
 import rajawali.BaseObject3D;
-import rajawali.materials.GouraudMaterial;
+import rajawali.materials.DiffuseMaterial;
 
 public class Floor extends BaseObject3D {
 
@@ -12,14 +12,16 @@ public class Floor extends BaseObject3D {
 		mWidth=width;
 		mLength=length;
 		
-		mMaterial = new GouraudMaterial();
-		mMaterial.setUseColor(true);
+		setMaterial(new DiffuseMaterial());
 		
+		
+		float halfWidth = mWidth/2;
+		float halfLength = mLength/2;
 		float []vertices = {
-				mWidth/2, 0f, mLength/2,
-				mWidth/2, 0f, -1*mLength/2,
-				-1*mWidth/2, 0f, -1*mLength/2,
-				-1*mWidth/2, 0f, mLength/2
+		        halfWidth, 0f, halfLength,
+				halfWidth, 0f, -halfLength,
+				-halfWidth, 0f, -halfLength,
+				-halfWidth, 0f, halfLength
 		};
 		float []normals = {
 				0f, 1f, 10f,
@@ -33,14 +35,8 @@ public class Floor extends BaseObject3D {
 			0f, 0f,
 			0f, 1f
 		};
-		float []colors = {
-			0f, 0f, 1f,
-			0f, 0f, 1f,
-			0f, 0f, 1f,
-			0f, 0f, 1f
-		};
 		int []indices = { 0, 1, 2, 0, 2, 3 };
-		setData(vertices, normals, textureCoords, colors, indices);
+		setData(vertices, normals, textureCoords, null, indices);
 	}
 	
 }

@@ -1,4 +1,4 @@
-package com.kedzie.lever.objects;
+package com.kedzie.machines.objects;
 
 import rajawali.materials.DiffuseMaterial;
 

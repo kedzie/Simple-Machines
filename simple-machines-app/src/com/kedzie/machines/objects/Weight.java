@@ -1,7 +1,6 @@
-package com.kedzie.lever.objects;
+package com.kedzie.machines.objects;
 
 import rajawali.BaseObject3D;
-import rajawali.primitives.Cube;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
@@ -10,7 +9,7 @@ import android.opengl.GLES20;
  * Object applying torque
  * @author Marek Kędzierski
  */
-public class Weight extends Cube {
+public class Weight extends Box {
     
 	/** Tangental component of force */
 	public float mFtan;
@@ -24,7 +23,7 @@ public class Weight extends Cube {
 	private Arrows mArrows;
 	
 	public Weight(float force) {
-		super(force);
+		super(force, force, force);
 		mForce=force;
 		mArrows = new Arrows();
 		addChild(mArrows);

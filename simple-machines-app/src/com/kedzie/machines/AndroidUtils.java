@@ -1,4 +1,4 @@
-package com.kedzie.lever;
+package com.kedzie.machines;
 
 import rajawali.BaseObject3D;
 import rajawali.materials.TextureManager;

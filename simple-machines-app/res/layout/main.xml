@@ -10,7 +10,7 @@
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"/>
     
-    <com.kedzie.lever.LeverView
+    <com.kedzie.machines.LeverView
         android:id="@+id/glSurfaceView"
         android:layout_width="fill_parent"
    		android:layout_height="wrap_content"

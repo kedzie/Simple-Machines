@@ -1,6 +1,5 @@
-package com.kedzie.lever;
+package com.kedzie.machines;
 
-import rajawali.animation.TimerManager;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -64,7 +63,6 @@ public class RajActivity extends Activity implements OnTouchListener {
     @Override
     protected void onPause() {
     	super.onPause();
-    	TimerManager.getInstance().clear();
     	_surfaceView.onPause();
     }
 
@@ -74,6 +72,10 @@ public class RajActivity extends Activity implements OnTouchListener {
     	_renderer.onSurfaceDestroyed();
         unbindDrawables(_layout);
         System.gc();
+    }
+    
+    public void setBottomText(String text) {
+        _bottomText.setText(text);
     }
     
     private void unbindDrawables(View view) {
