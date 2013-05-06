@@ -74,6 +74,10 @@ public class RajActivity extends Activity implements OnTouchListener {
         System.gc();
     }
     
+    public void setTopText(String text) {
+        _topText.setText(text);
+    }
+    
     public void setBottomText(String text) {
         _bottomText.setText(text);
     }

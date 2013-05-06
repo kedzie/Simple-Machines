@@ -46,8 +46,8 @@ public class Weight extends Box {
 	 * @return angular acceleration
 	 */
 	public float calculateAngularAcceleration(Lever lever) {
-		mFtan = (float) (mForce*Math.cos(lever.getRotZ()));
-		mFrad = (float) (mForce*Math.sin(lever.getRotZ()));
+		mFtan = (float) (mForce*Math.cos(Math.toRadians(lever.getRotZ())));
+		mFrad = (float) (mForce*Math.sin(Math.toRadians(lever.getRotZ())));
 		float r = Math.abs(getX());
 		float alpha = mFtan/(r*lever.getMass());
 		if(getX()>0) 

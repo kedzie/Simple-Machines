@@ -33,7 +33,7 @@ public class Lever extends Box {
 	public Lever(float length, float width, float thickness, float height, float mass, Resources resources, TextureManager textureManager) {
 	    super(length,width, thickness);
 		mHeight=height;
-		mValidAngleRange = (float)Math.atan(mHeight/mLength/2);
+		mValidAngleRange = (float)Math.toDegrees(Math.atan(mHeight/mLength/2));
 		mMass=mass;
 		setPosition(0f, mHeight, 0f);
 	}
